@@ -93,7 +93,7 @@ ng serve
 
 
 ## 📌 Auteur
-Projet réalisé par **Fatima Azzahra Hasnaoui**  *zaynab er-reghay**  **bilal lahfari**  **ayoub khezaz**  **sami malek** **hala lakhal**  dans le cadre d'un projet académique.  
+Projet réalisé par **Fatima Azzahra Hasnaoui**  **zaynab er-reghay**  **bilal lahfari**  **ayoub khezaz**  **sami malek** **hala lakhal**  dans le cadre d'un projet académique.  
 
 ## 📄 Licence
 Ce projet est sous licence **MIT**. Vous êtes libre de le réutiliser avec attribution.
