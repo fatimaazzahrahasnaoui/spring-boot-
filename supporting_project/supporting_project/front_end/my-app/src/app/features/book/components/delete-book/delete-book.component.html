@@ -1,0 +1,23 @@
+<div class="container mt-5">
+
+    <!-- Display Message -->
+    <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.includes('successfully'), 'alert-danger': message.includes('Error')}">
+      {{ message }}
+    </div>
+  
+    <!-- Book Deletion Confirmation -->
+    <h2>Delete Book: {{ book?.title }}</h2>
+    <p>Are you sure you want to delete this book?</p>
+  
+    <div *ngIf="book">
+      <p><strong>Author:</strong> {{ book?.author?.name }}</p>
+      <p><strong>Category:</strong> {{ book?.category?.name }}</p>
+      <p><strong>Publish Date:</strong> {{ book?.publishDate | date }}</p>
+    </div>
+  
+    <!-- Buttons to Confirm or Cancel Deletion -->
+    <button class="btn btn-danger" (click)="deleteBook()">Delete</button>
+    <button class="btn btn-secondary" (click)="router.navigate(['/books'])">Cancel</button>
+  
+  </div>
+  

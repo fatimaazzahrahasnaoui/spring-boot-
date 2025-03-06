@@ -1,0 +1,21 @@
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Delete Category</h2>
+  
+    <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.includes('successfully'), 'alert-danger': message.includes('Error')}">
+      {{ message }}
+    </div>
+  
+    <div *ngIf="category" class="card p-4 shadow">
+      <p>Are you sure you want to delete the category <strong>{{ category.label }}</strong>?</p>
+  
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-danger" (click)="deleteCategory()">Yes, Delete</button>
+        <button class="btn btn-secondary" routerLink="/categories">Cancel</button>
+      </div>
+    </div>
+  
+    <div *ngIf="!category && !message">
+      <p>No category selected for deletion.</p>
+    </div>
+  </div>
+  

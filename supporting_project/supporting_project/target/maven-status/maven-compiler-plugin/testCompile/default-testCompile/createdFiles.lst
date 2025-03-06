@@ -1,0 +1,10 @@
+com\example\demo\controllers\AuthorControllerIntegrationTests.class
+com\example\demo\services\CategoryServicesIntegrationTests.class
+com\example\demo\DemoApplicationTests.class
+com\example\demo\services\BookServicesIntegrationTests.class
+com\example\demo\controllers\BookControllerIntegrationTests.class
+com\example\demo\persistence\AuthorRepositoryUnitTests.class
+com\example\demo\persistence\CategoryRepositoryUnitTests.class
+com\example\demo\controllers\CategoryControllerIntegrationTests.class
+com\example\demo\services\AuthorServicesIntegrationTests.class
+com\example\demo\persistence\BookRepositoryUnitTests.class

@@ -1,0 +1,161 @@
+\documentclass{article}
+\usepackage{graphicx} % Requis pour insérer des images
+\usepackage{float}    % Pour forcer les positions des figures
+\usepackage{framed}   % Pour ajouter des cadres autour des images
+\usepackage{listings} % Pour les exemples de code Java
+\usepackage{hyperref}
+
+\title{La Couche Service}
+\date{\today}
+
+\lstset{ 
+    language=Java,
+    frame=single,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    breaklines=true,
+    showstringspaces=false,
+    captionpos=b,
+    xleftmargin=\parindent,
+    framexleftmargin=10pt,
+    framexrightmargin=10pt,
+    framextopmargin=5pt,
+    framexbottommargin=5pt
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+La \textbf{couche service} dans une application multicouche fournit la logique métier qui agit comme un intermédiaire entre la couche de persistance (où les données sont stockées et récupérées) et la couche contrôleur (qui gère les requêtes des utilisateurs). Elle garantit que les règles et les opérations métiers de l'application sont implémentées de manière structurée et réutilisable.
+
+Dans le framework Spring, des annotations telles que \texttt{@Service}, \texttt{@Autowired} et \texttt{@Transactional} sont couramment utilisées pour définir et gérer les composants de service et leurs interactions. Ces annotations simplifient la configuration et la gestion des services.
+
+\section{Rôle de la Couche Service}
+La couche service dans une application basée sur Spring remplit les rôles clés suivants :
+
+\begin{itemize}
+    \item \textbf{Logique Métier} : Elle contient la logique métier principale de l'application, garantissant que les règles métier sont respectées lors du traitement des requêtes des utilisateurs.
+    \item \textbf{Gestion des Transactions} : Elle gère les limites des transactions, garantissant que plusieurs opérations sur la base de données sont traitées comme une seule unité de travail, préservant ainsi l'intégrité des données.
+    \item \textbf{Interaction avec les Autres Couches} : Elle agit comme un médiateur entre la couche de persistance (DAO) et la couche contrôleur, garantissant que l'accès aux données est effectué efficacement et correctement.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{framed}
+        \includegraphics[width=0.8\linewidth]{images/service_layer.png}
+    \end{framed}
+    \caption{Architecture de la Couche Service}
+    \label{fig:service-layer}
+\end{figure}
+
+\section{Annotations Clés dans la Couche Service}
+Spring fournit plusieurs annotations pour simplifier la définition et la gestion des composants de la couche service. Les annotations les plus utilisées sont :
+
+\begin{itemize}
+    \item \texttt{@Service} : Marque la classe comme un composant de service dans le conteneur Spring, indiquant qu'elle contient la logique métier.
+    \item \texttt{@Autowired} : Injecte automatiquement les dépendances (comme les DAO) dans la classe de service.
+    \item \texttt{@Transactional} : Définit la portée d'une seule transaction pour une méthode ou une classe. Cela garantit que les opérations sont terminées avec succès ou annulées en cas d'échec.
+    \item \texttt{@Component} : Une annotation générique qui peut également être utilisée pour marquer les classes de la couche service, bien que \texttt{@Service} soit préféré pour les composants de logique métier.
+\end{itemize}
+
+\subsection{Exemple de Code avec Annotations}
+Voici un exemple de la manière dont la couche service est structurée en utilisant ces annotations dans une application basée sur Spring.
+
+\begin{lstlisting}[caption={Exemple de Couche Service avec Annotations}]
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;  // Injecté avec @Autowired
+
+    @Transactional
+    public void createProduct(Product product) {
+        // Logique métier : validation, manipulation, etc.
+        if (product != null) {
+            productRepository.save(product);  // Interaction avec la couche de persistance
+        } else {
+            throw new IllegalArgumentException("Le produit ne peut pas être nul");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElse(null); // Récupération des données
+    }
+
+    public void updateProduct(Long id, Product product) {
+        if (productRepository.existsById(id)) {
+            productRepository.save(product);
+        } else {
+            throw new EntityNotFoundException("Produit non trouvé");
+        }
+    }
+
+    @Transactional
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);  // Supprime le produit de la base de données
+    }
+}
+\end{lstlisting}
+
+Dans ce code :
+
+\begin{itemize}
+    \item \texttt{@Service} marque la classe \texttt{ProductService} comme un bean de service géré par Spring.
+    \item \texttt{@Autowired} est utilisé pour injecter une instance de \texttt{ProductRepository} dans la classe de service.
+    \item \texttt{@Transactional} garantit que les méthodes \texttt{createProduct}, \texttt{updateProduct} et \texttt{deleteProduct} sont exécutées dans un contexte transactionnel. L'attribut \texttt{readOnly} dans \texttt{@Transactional(readOnly = true)} marque la méthode \texttt{getProductById} comme une opération en lecture seule, optimisant ainsi les performances.
+\end{itemize}
+
+\section{Interaction entre la Couche Service et la Couche de Persistance}
+La couche service interagit directement avec la couche de persistance pour accéder et modifier les données stockées dans la base de données. La couche de persistance fournit un accès aux données via des repositories ou des DAO (Data Access Objects), et la couche service les invoque pour effectuer des opérations CRUD (Créer, Lire, Mettre à jour, Supprimer).
+
+Dans le framework Spring, l'annotation \texttt{@Autowired} est couramment utilisée pour injecter des DAO ou des repositories dans la classe de service. De plus, la gestion des transactions est généralement gérée au niveau de la couche service à l'aide de \texttt{@Transactional}, garantissant que toute la transaction est validée ou annulée en cas de besoin.
+
+\begin{figure}[H]
+    \centering
+    \begin{framed}
+        \includegraphics[width=0.8\linewidth]{images/service_persistence_interaction.png}
+    \end{framed}
+    \caption{Interaction de la Couche Service avec la Couche de Persistance}
+    \label{fig:service-persistence}
+\end{figure}
+
+\section{Gestion des Exceptions dans la Couche Service}
+La gestion des exceptions est un autre aspect crucial de la couche service. Dans le contexte de la couche service, les exceptions sont souvent utilisées pour communiquer les erreurs qui surviennent lors de l'exécution de la logique métier ou des interactions avec la couche de persistance. Une pratique courante consiste à encapsuler les exceptions de bas niveau dans une classe d'exception personnalisée, puis à les propager vers la couche contrôleur, où elles peuvent être gérées et traduites en réponses HTTP appropriées.
+
+\begin{lstlisting}[caption={Gestion Personnalisée des Exceptions dans la Couche Service}]
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Transactional
+    public void createProduct(Product product) {
+        try {
+            if (product != null) {
+                productRepository.save(product);
+            } else {
+                throw new InvalidProductException("Le produit ne peut pas être nul");
+            }
+        } catch (Exception e) {
+            throw new ProductServiceException("Erreur lors de la création du produit", e);
+        }
+    }
+}
+\end{lstlisting}
+
+Dans cet exemple :
+
+\begin{itemize}
+    \item \texttt{InvalidProductException} est une exception personnalisée levée si l'entrée est invalide.
+    \item \texttt{ProductServiceException} est une exception personnalisée qui encapsule les exceptions de bas niveau, fournissant plus de contexte avant de les relancer.
+\end{itemize}
+
+\section{Conclusion}
+La couche service joue un rôle essentiel dans la gestion de la logique métier et des interactions entre les couches de persistance et contrôleur. En utilisant les annotations Spring comme \texttt{@Service}, \texttt{@Autowired} et \texttt{@Transactional}, nous pouvons facilement définir et gérer les composants de service, garantissant que la logique métier est exécutée correctement et efficacement. De plus, la gestion des exceptions au sein de la couche service améliore la gestion des erreurs et l'expérience utilisateur en fournissant des messages d'erreur significatifs aux contrôleurs.
+
+\end{document}

@@ -1,0 +1,161 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}    % For forcing figure positions
+\usepackage{framed}   % For adding frames around images
+\usepackage{listings} % For Java code examples
+\usepackage{hyperref}
+
+\title{Service Layer}
+\date{\today}
+
+\lstset{ 
+    language=Java,
+    frame=single,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    breaklines=true,
+    showstringspaces=false,
+    captionpos=b,
+    xleftmargin=\parindent,
+    framexleftmargin=10pt,
+    framexrightmargin=10pt,
+    framextopmargin=5pt,
+    framexbottommargin=5pt
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+The \textbf{service layer} in a multi-layered application provides business logic that acts as an intermediary between the persistence layer (where data is stored and retrieved) and the controller layer (which handles user requests). The service layer ensures that the business rules and operations of the application are implemented in a structured and reusable manner. 
+
+In the Spring Framework, annotations such as \texttt{@Service}, \texttt{@Autowired}, and \texttt{@Transactional} are commonly used to define and manage service components and their interactions. These annotations simplify the configuration and management of services.
+
+\section{Role of the Service Layer}
+The service layer in a Spring-based application serves the following key roles:
+
+\begin{itemize}
+    \item \textbf{Business Logic}: It contains the application's core business logic, ensuring that business rules are followed while processing user requests.
+    \item \textbf{Transaction Management}: It handles the transaction boundaries, ensuring that multiple database operations are treated as a single unit of work, thus maintaining data integrity.
+    \item \textbf{Interaction with Other Layers}: It mediates between the persistence layer (DAO) and the controller layer (controllers), ensuring that data access is done efficiently and correctly.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{framed}
+        \includegraphics[width=0.8\linewidth]{images/service_layer.png}
+    \end{framed}
+    \caption{Service Layer Architecture}
+    \label{fig:service-layer}
+\end{figure}
+
+\section{Key Annotations in the Service Layer}
+Spring provides several annotations to simplify the definition and management of service layer components. The most commonly used annotations are:
+
+\begin{itemize}
+    \item \texttt{@Service}: Marks the class as a service component in the Spring container, indicating that it holds business logic.
+    \item \texttt{@Autowired}: Automatically injects dependencies (such as DAOs) into the service class.
+    \item \texttt{@Transactional}: Defines the scope of a single transaction for a method or class. It ensures that the operations are completed successfully or rolled back in case of failure.
+    \item \texttt{@Component}: A generic annotation that can also be used to mark service layer classes, though \texttt{@Service} is preferred for business logic components.
+\end{itemize}
+
+\subsection{Example Code with Annotations}
+Here's an example of how the service layer is structured using these annotations in a Spring-based application.
+
+\begin{lstlisting}[caption={Service Layer Example with Annotations}]
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;  // Injected using @Autowired
+
+    @Transactional
+    public void createProduct(Product product) {
+        // Business logic: validation, manipulation, etc.
+        if (product != null) {
+            productRepository.save(product);  // Persistence layer interaction
+        } else {
+            throw new IllegalArgumentException("Product cannot be null");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElse(null); // Data fetching
+    }
+
+    public void updateProduct(Long id, Product product) {
+        if (productRepository.existsById(id)) {
+            productRepository.save(product);
+        } else {
+            throw new EntityNotFoundException("Product not found");
+        }
+    }
+
+    @Transactional
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);  // Deletes product from database
+    }
+}
+\end{lstlisting}
+
+In this code:
+
+\begin{itemize}
+    \item \texttt{@Service} marks the \texttt{ProductService} class as a Spring-managed service bean.
+    \item \texttt{@Autowired} is used to inject an instance of \texttt{ProductRepository} into the service class.
+    \item \texttt{@Transactional} ensures that the methods \texttt{createProduct}, \texttt{updateProduct}, and \texttt{deleteProduct} are executed within a transaction context. The \texttt{readOnly} attribute in \texttt{@Transactional(readOnly = true)} marks the \texttt{getProductById} method as a read-only operation, optimizing performance.
+\end{itemize}
+
+\section{Service Layer and Persistence Layer Interaction}
+The service layer interacts directly with the persistence layer to access and modify the data stored in the database. The persistence layer provides data access via repositories or DAOs (Data Access Objects), and the service layer invokes these to perform CRUD (Create, Read, Update, Delete) operations. 
+
+In the Spring Framework, the \texttt{@Autowired} annotation is commonly used to inject DAOs or repositories into the service class. Additionally, transaction management is typically handled at the service layer using \texttt{@Transactional}, ensuring that the entire transaction is committed or rolled back as needed.
+
+\begin{figure}[H]
+    \centering
+    \begin{framed}
+        \includegraphics[width=0.8\linewidth]{images/service_persistence_interaction.png}
+    \end{framed}
+    \caption{Service Layer Interacting with the Persistence Layer}
+    \label{fig:service-persistence}
+\end{figure}
+
+\section{Exception Handling in the Service Layer}
+Exception handling is another crucial aspect of the service layer. In the context of the service layer, exceptions are often used to communicate errors that arise during business logic execution or interactions with the persistence layer. A common practice is to wrap lower-level exceptions in a custom exception class and then propagate them up to the controller layer, where they can be handled and translated into appropriate HTTP responses.
+
+\begin{lstlisting}[caption={Custom Exception Handling in the Service Layer}]
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Transactional
+    public void createProduct(Product product) {
+        try {
+            if (product != null) {
+                productRepository.save(product);
+            } else {
+                throw new InvalidProductException("Product cannot be null");
+            }
+        } catch (Exception e) {
+            throw new ProductServiceException("Error occurred while creating the product", e);
+        }
+    }
+}
+\end{lstlisting}
+
+In this example:
+
+\begin{itemize}
+    \item \texttt{InvalidProductException} is a custom exception thrown if the input is invalid.
+    \item \texttt{ProductServiceException} is a custom exception that wraps lower-level exceptions, providing more context before rethrowing it.
+\end{itemize}
+
+\section{Conclusion}
+The service layer plays a vital role in managing business logic and interactions between the persistence and controller layers. Using Spring annotations like \texttt{@Service}, \texttt{@Autowired}, and \texttt{@Transactional}, we can easily define and manage the service components, ensuring that business logic is executed correctly and efficiently. Furthermore, exception handling within the service layer improves error management and user experience by providing meaningful error messages to the controllers.
+
+\end{document}

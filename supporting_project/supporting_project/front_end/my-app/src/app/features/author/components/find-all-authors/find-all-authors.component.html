@@ -1,0 +1,31 @@
+<div *ngIf="loading">Loading authors...</div>
+<div *ngIf="message">{{ message }}</div>
+
+<table *ngIf="!loading && authors.length > 0" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr *ngFor="let author of authors">
+      <td>{{ author.id }}</td>
+      <td>{{ author.name }}</td>
+      <td>{{ author.age }}</td>
+
+      <td> 
+        
+        <button class="btn btn-info" (click)="navigateTo('view', author)">View</button>
+        <button class="btn btn-warning" (click)="navigateTo('update', author)">Edit</button>
+        <button class="btn btn-danger" (click)="navigateTo('delete', author)">Delete</button>
+        
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="authors.length === 0 && !loading">No authors available.</div>

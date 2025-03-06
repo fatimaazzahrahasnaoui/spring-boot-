@@ -1,0 +1,367 @@
+\documentclass[a4paper,12pt]{article}
+
+% Packages nécessaires
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\geometry{margin=1in}
+
+
+% Configuration des marges
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+% Configuration des couleurs
+\definecolor{keywords}{rgb}{0.13,0.29,0.53}
+\definecolor{comments}{rgb}{0.4,0.4,0.4}
+\definecolor{strings}{rgb}{0.6,0.0,0.0}
+\definecolor{background}{rgb}{0.95,0.95,0.95}
+
+% Configuration des listings
+\lstset{
+  backgroundcolor=\color{background},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{keywords}\bfseries,
+  commentstyle=\color{comments}\itshape,
+  stringstyle=\color{strings},
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5pt,
+  showstringspaces=false,
+  captionpos=b,
+  tabsize=2,
+  escapeinside={(*@}{@*)} % Permet d'insérer des commandes LaTeX
+}
+
+% Configuration des sections
+\titleformat{\section}{\Large\bfseries\color{keywords}}{}{0em}{}
+\titleformat{\subsection}{\large\bfseries\color{keywords}}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{keywords}}{}{0em}{}
+
+% Document
+\begin{document}
+
+\title{\textbf{TypeScript Annex for Spring Boot and Angular Project}}
+\author{}
+\date{}
+\maketitle
+
+\section*{Introduction}
+This annex provides a comprehensive overview of TypeScript concepts essential for developing a robust Angular front-end integrated with a Spring Boot back-end. The content includes syntax, advanced features, and best practices for type-safe and efficient development.
+
+\section{TypeScript Types}
+\subsection*{Key Concepts}
+\begin{itemize}
+    \item \textbf{Type Aliases:} Define reusable and complex type structures.
+    \item \textbf{Versatility:} Supports unions, intersections, and mapped types for dynamic and reusable patterns.
+\end{itemize}
+
+\subsection*{Common Type Syntax}
+\subsubsection*{Basic Type Alias Example}
+\begin{lstlisting}[language=TypeScript]
+type Person = {
+  name: string;
+  age: number;
+};
+\end{lstlisting}
+
+\subsubsection*{Union and Intersection Types}
+\textbf{Union Types:}
+\begin{lstlisting}[language=TypeScript]
+type Size = "small" | "medium" | "large";
+\end{lstlisting}
+
+\textbf{Intersection Types:}
+\begin{lstlisting}[language=TypeScript]
+type Location = { x: number } & { y: number };
+\end{lstlisting}
+
+\subsubsection*{Tuples}
+\begin{lstlisting}[language=TypeScript]
+type Point = [number, number];
+\end{lstlisting}
+
+\subsubsection*{Read-only Properties}
+\begin{lstlisting}[language=TypeScript]
+type Person = {
+  readonly id: number;
+  name: string;
+};
+\end{lstlisting}
+
+\subsection*{Advanced Features}
+\textbf{Type from Values:}
+\begin{lstlisting}[language=TypeScript]
+const data = { id: 1, name: "Alice" };
+type DataType = typeof data; // Infers type from `data`
+\end{lstlisting}
+
+\textbf{Mapped Types:}
+\begin{lstlisting}[language=TypeScript]
+type Subscriber<T> = {
+  [P in keyof T]: (value: T[P]) => void;
+};
+\end{lstlisting}
+
+\textbf{Utility Types:}
+\begin{itemize}
+    \item \textbf{Pick:} Select specific properties.
+    \begin{lstlisting}[language=TypeScript]
+    type NameAndAge = Pick<Person, "name" | "age">;
+    \end{lstlisting}
+    \item \textbf{Partial:} Make all properties optional.
+    \begin{lstlisting}[language=TypeScript]
+    type PartialPerson = Partial<Person>;
+    \end{lstlisting}
+\end{itemize}
+
+\subsection*{Best Practices}
+\begin{itemize}
+    \item Use \texttt{readonly} for immutable properties.
+    \item Leverage utility types for modular and reusable code.
+    \item Apply generics for flexible type design.
+\end{itemize}
+
+\section{TypeScript Interfaces}
+\subsection*{Overview}
+Interfaces in TypeScript define the structure of objects and serve as contracts for your data models. They enable type safety and help enforce consistency across your application.
+
+\subsection*{Basic Interface Syntax}
+\begin{lstlisting}[language=TypeScript]
+interface Person {
+  name: string;
+  age: number;
+}
+\end{lstlisting}
+
+\subsection*{Advanced Features}
+\begin{itemize}
+    \item \textbf{Optional Properties:} Use the \texttt{?} syntax to mark properties as optional.
+    \begin{lstlisting}[language=TypeScript]
+    interface Person {
+      name: string;
+      age?: number; // Optional
+    }
+    \end{lstlisting}
+    \item \textbf{Readonly Properties:} Prevent modifications to properties using the \texttt{readonly} modifier.
+    \begin{lstlisting}[language=TypeScript]
+    interface Person {
+      readonly id: number;
+      name: string;
+    }
+    \end{lstlisting}
+    \item \textbf{Extending Interfaces:} Combine multiple interfaces for scalability.
+    \begin{lstlisting}[language=TypeScript]
+    interface Employee extends Person {
+      department: string;
+    }
+    \end{lstlisting}
+    \item \textbf{Index Signatures:} Use dynamic property names.
+    \begin{lstlisting}[language=TypeScript]
+    interface Dictionary {
+      [key: string]: string;
+    }
+    \end{lstlisting}
+\end{itemize}
+
+\subsection*{Best Practices}
+\begin{itemize}
+    \item Use interfaces to define object contracts.
+    \item Leverage \texttt{readonly} to enforce immutability.
+    \item Extend interfaces for scalability and reusability.
+\end{itemize}
+
+\section{TypeScript Classes}
+\subsection*{Introduction}
+TypeScript classes extend JavaScript's class syntax by adding static typing, access modifiers, and advanced object-oriented features.
+
+\subsection*{Basic Class Example}
+\begin{lstlisting}[language=TypeScript]
+class Person {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  greet(): string {
+    return `Hello, ${this.name}!`;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Access Modifiers}
+TypeScript introduces access modifiers for encapsulation:
+\begin{itemize}
+    \item \texttt{public}: Accessible from anywhere.
+    \item \texttt{private}: Accessible only within the class.
+    \item \texttt{protected}: Accessible within the class and its subclasses.
+\end{itemize}
+
+\textbf{Example:}
+\begin{lstlisting}[language=TypeScript]
+class Employee {
+  private id: number;
+  protected department: string;
+  public name: string;
+
+  constructor(id: number, name: string, department: string) {
+    this.id = id;
+    this.name = name;
+    this.department = department;
+  }
+
+  getDetails(): string {
+    return `${this.name} works in ${this.department}.`;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Static Properties and Methods}
+\begin{lstlisting}[language=TypeScript]
+class MathUtils {
+  static pi = 3.14;
+
+  static calculateArea(radius: number): number {
+    return MathUtils.pi * radius * radius;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Inheritance}
+\begin{lstlisting}[language=TypeScript]
+class Manager extends Employee {
+  constructor(id: number, name: string, department: string) {
+    super(id, name, department);
+  }
+  manage(): string {
+    return `${this.name} manages the ${this.department} department.`;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Getters and Setters}
+Encapsulate property access for better control and validation.
+
+\begin{lstlisting}[language=TypeScript]
+class Rectangle {
+  private _width: number;
+  private _height: number;
+
+  constructor(width: number, height: number) {
+    this._width = width;
+    this._height = height;
+  }
+
+  get area(): number {
+    return this._width * this._height;
+  }
+
+  set dimensions({ width, height }: { width: number; height: number }) {
+    this._width = width;
+    this._height = height;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Parameter Properties}
+Shorthand for defining and initializing properties directly in the constructor.
+
+\begin{lstlisting}[language=TypeScript]
+class User {
+  constructor(public name: string, private readonly id: number) {}
+}
+\end{lstlisting}
+
+\subsection*{Best Practices}
+\begin{itemize}
+    \item Use \texttt{private} for encapsulation and \texttt{readonly} for immutability.
+    \item Leverage \textit{abstract classes} to define common behaviors.
+    \item Apply \textit{static members} for utility functions.
+\end{itemize}
+
+\section{TypeScript Control Flow Analysis (CFA)}
+\subsection*{Overview}
+Control Flow Analysis (CFA) enables TypeScript to dynamically narrow types based on code logic, ensuring type safety and reducing runtime errors.
+
+\subsection*{Key Features}
+\subsubsection*{Type Narrowing with Conditions}
+\begin{itemize}
+    \item \textbf{\texttt{typeof}:} Narrow types for primitives.
+\end{itemize}
+\begin{lstlisting}[language=TypeScript]
+const input: string | number = getInput();
+if (typeof input === "string") {
+  console.log(input.length); // input is string here
+}
+\end{lstlisting}
+
+\begin{itemize}
+    \item \textbf{\texttt{instanceof}:} Narrow types for classes or objects.
+\end{itemize}
+\begin{lstlisting}[language=TypeScript]
+if (input instanceof Array) {
+  console.log(input.length); // input is an array here
+}
+\end{lstlisting}
+
+\begin{itemize}
+    \item \textbf{\texttt{in} Operator:} Check for property existence in an object.
+\end{itemize}
+\begin{lstlisting}[language=TypeScript]
+if ("error" in response) {
+  console.log(response.error);
+}
+\end{lstlisting}
+
+\subsubsection*{Discriminated Unions}
+Narrow types using a shared discriminant property to handle multiple types within a single object type.
+
+\begin{lstlisting}[language=TypeScript]
+type Response =
+  | { status: 200; data: string }
+  | { status: 404; error: string };
+
+const res: Response = getResponse();
+if (res.status === 200) {
+  console.log(res.data);
+}
+\end{lstlisting}
+
+\subsubsection*{Custom Type Guards}
+Create reusable functions to refine types and ensure type safety.
+\begin{lstlisting}[language=TypeScript]
+function isErrorResponse(obj: any): obj is { error: string } {
+  return "error" in obj;
+}
+\end{lstlisting}
+
+\subsubsection*{Assertion Functions}
+Use assertion functions to change type scope or throw errors when a condition is unmet.
+\begin{lstlisting}[language=TypeScript]
+function assertIsNumber(value: any): asserts value is number {
+  if (typeof value !== "number") {
+    throw new Error("Not a number");
+  }
+}
+\end{lstlisting}
+
+\subsection*{Best Practices}
+\begin{itemize}
+    \item Use \textbf{discriminated unions} for objects with shared properties to handle multiple types.
+    \item Write \textbf{custom type guards} for reusable and readable type narrowing logic.
+    \item Apply \textbf{assertion functions} to enforce strict type validation during runtime.
+\end{itemize}
+
+\section{Summary of TypeScript Features and Best Practices}
+\noindent
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{images/typescript_comm2.jpg}
+    \caption{TypeScript Cheat Sheet: Features and Best Practices}
+    \label{fig:Typescipt_Cheat_Sheet.}
+\end{figure}
+\end{document}

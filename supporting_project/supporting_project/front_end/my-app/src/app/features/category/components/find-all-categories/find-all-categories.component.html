@@ -1,0 +1,25 @@
+<div *ngIf="loading">Loading categories...</div>
+<div *ngIf="message">{{ message }}</div>
+
+<table *ngIf="!loading && categories.length > 0" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Label</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let category of categories">
+      <td>{{ category.id }}</td>
+      <td>{{ category.label }}</td>
+      <td>
+        <button class="btn btn-info" (click)="navigateTo('view', category)">View</button>
+        <button class="btn btn-warning" (click)="navigateTo('update', category)">Edit</button>
+        <button class="btn btn-danger" (click)="navigateTo('delete', category)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="categories.length === 0 && !loading">No categories available.</div>

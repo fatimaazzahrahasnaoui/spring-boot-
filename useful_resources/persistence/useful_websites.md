@@ -1,0 +1,1 @@
+**Spring data JPA** : [Spring data JPA](https://aliboucoding.com/p/the-full-guide-to-master-spring-boot-data-jpa)

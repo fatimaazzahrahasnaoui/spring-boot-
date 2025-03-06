@@ -1,0 +1,10 @@
+com.example.demo
+com.example.demo.config
+com.example.demo.controllers
+com.example.demo.models.dtos
+com.example.demo.models.entities
+com.example.demo.models.mappers
+com.example.demo.models.mappers.impl
+com.example.demo.persistence
+com.example.demo.services
+com.example.demo.services.impl

@@ -1,0 +1,65 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Create Book</h2>
+
+  <!-- Message Display -->
+  <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.includes('successfully'), 'alert-danger': message.includes('Error')}">
+    {{ message }}
+  </div>
+
+  <!-- Book Form -->
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="card p-4 shadow">
+    <div class="mb-3">
+      <label for="title" class="form-label">Book Title</label>
+      <input 
+        type="text" 
+        id="title" 
+        formControlName="title" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': bookForm.get('title')?.invalid && bookForm.get('title')?.touched}"
+      />
+      <div class="invalid-feedback">Title is required.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="publishDate" class="form-label">Publish Date</label>
+      <input 
+        type="date" 
+        id="publishDate" 
+        formControlName="publishDate" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': bookForm.get('publishDate')?.invalid && bookForm.get('publishDate')?.touched}"
+      />
+      <div class="invalid-feedback">Publish Date is required.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="author" class="form-label">Author</label>
+      <select 
+        id="author" 
+        formControlName="author" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': bookForm.get('author')?.invalid && bookForm.get('author')?.touched}"
+      >
+        <option *ngFor="let author of authors" [value]="author.id">{{ author.name }}</option>
+      </select>
+      <div class="invalid-feedback">Author is required.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="category" class="form-label">Category</label>
+      <select 
+        id="category" 
+        formControlName="category" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': bookForm.get('category')?.invalid && bookForm.get('category')?.touched}"
+      >
+        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+      </select>
+      <div class="invalid-feedback">Category is required.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100" [disabled]="bookForm.invalid">
+      Submit
+    </button>
+  </form>
+</div>

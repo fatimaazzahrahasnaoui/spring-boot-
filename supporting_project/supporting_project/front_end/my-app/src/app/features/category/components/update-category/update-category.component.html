@@ -1,0 +1,31 @@
+<p>update-category works!</p>
+<div *ngIf="selectedCategory">
+    <h2>Update Category: {{ selectedCategory.label }}</h2>
+  
+    <form [formGroup]="form" (ngSubmit)="onUpdate()">
+      <div class="mb-3">
+        <label for="label" class="form-label">Label</label>
+        <input
+          type="text"
+          id="label"
+          class="form-control"
+          formControlName="label"
+          [ngClass]="{
+            'is-invalid': form.get('label')?.invalid && form.get('label')?.touched
+          }"
+        />
+        <div class="invalid-feedback">Label is required.</div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        Update Category
+      </button>
+    </form>
+  
+    <p class="text-success mt-3" *ngIf="message">{{ message }}</p>
+  </div>
+  
+  <ng-template>
+    <p>No category selected for update.</p>
+  </ng-template>
+  

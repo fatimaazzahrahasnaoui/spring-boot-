@@ -1,0 +1,46 @@
+<div *ngIf="selectedAuthor">
+    <h2>Update Author: {{ selectedAuthor.name }}</h2>
+  
+    <form [formGroup]="form" (ngSubmit)="onUpdate()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          formControlName="name"
+          [ngClass]="{
+            'is-invalid': form.get('name')?.invalid && form.get('name')?.touched
+          }"
+        />
+        <div class="invalid-feedback">Name is required.</div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="age" class="form-label">Age</label>
+        <input
+          type="number"
+          id="age"
+          class="form-control"
+          formControlName="age"
+          [ngClass]="{
+            'is-invalid': form.get('age')?.invalid && form.get('age')?.touched
+          }"
+        />
+        <div class="invalid-feedback">Age is required.</div>
+      </div>
+  
+      
+  
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        Update Author
+      </button>
+    </form>
+  
+    <p class="text-success mt-3" *ngIf="message">{{ message }}</p>
+  </div>
+  
+  <ng-template>
+    <p>No author selected for update.</p>
+  </ng-template>
+  

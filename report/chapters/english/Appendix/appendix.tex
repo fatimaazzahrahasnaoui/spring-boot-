@@ -1,0 +1,169 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+
+% Configuration for source code
+\lstset{
+    language=Java,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{gray},
+    frame=single,
+    breaklines=true
+}
+
+\title{Appendix}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+
+\section{Course on Unit Testing and JUnit}
+\subsection{Introduction to Unit Testing}
+Unit testing is an essential practice in software development. It helps verify that a unit of code (typically a function or method) works as expected. In this course, we will explore:
+\begin{itemize}
+    \item The definition and importance of unit tests.
+    \item The JUnit framework for testing in Java.
+    \item Handling scenarios where information is missing or needs to be added.
+\end{itemize}
+
+\subsection{What is a Unit Test?}
+A unit test is an automated test that validates the behavior of a specific code unit. A unit is often defined as:
+\begin{itemize}
+    \item A method in a class.
+    \item A function in a program.
+\end{itemize}
+
+\subsubsection{Why Perform Unit Tests?}
+Unit tests offer several advantages:
+\begin{itemize}
+    \item \textbf{Early bug detection:} Errors are identified before the code is integrated with other modules.
+    \item \textbf{Ease of maintenance:} When code is modified, tests ensure that no new errors are introduced.
+    \item \textbf{Code documentation:} Tests serve as a reference to understand how each method is supposed to behave.
+\end{itemize}
+
+\subsection{Overview of JUnit}
+JUnit is a widely used Java testing framework for writing and running unit tests. It is lightweight, fast, and easily integrates with modern tools.
+
+\subsubsection{Key JUnit Annotations}
+Here are the main annotations used in JUnit:
+\begin{itemize}
+    \item \texttt{@Test}: Marks a method as a unit test.
+    \item \texttt{@BeforeEach}: Method executed before each test, useful for initializing data.
+    \item \texttt{@AfterEach}: Method executed after each test, often used for cleaning up resources.
+    \item \texttt{@BeforeAll}: Method executed once before all tests.
+    \item \texttt{@AfterAll}: Method executed once after all tests.
+    \item \texttt{@Disabled}: Temporarily disables a test.
+\end{itemize}
+
+\subsubsection{Main Assertions}
+Assertions are methods that check the test results:
+\begin{itemize}
+    \item \texttt{assertEquals(expected, actual)}: Checks that the actual value matches the expected value.
+    \item \texttt{assertTrue(condition)}: Checks that a condition is true.
+    \item \texttt{assertFalse(condition)}: Checks that a condition is false.
+    \item \texttt{assertThrows(exception.class, () -> \{...\})}: Verifies that a specific exception is thrown.
+\end{itemize}
+
+\subsection{Example Using JUnit}
+Here is a simple example testing an addition method in a calculator.
+
+\subsubsection{Calculator Class Code}
+\begin{lstlisting}
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Unit Test Code}
+\begin{lstlisting}
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CalculatorTest {
+    @Test
+    void testAddition() {
+        Calculator calculator = new Calculator();
+        int result = calculator.add(2, 3);
+        assertEquals(5, result); // Verify that 2 + 3 = 5
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Mock Objects with Mockito}
+\subsection{What is a Mock Object?}
+A \textbf{mock object} is a \textbf{simulation} of an external dependency used in unit tests. It allows simulating the behavior of this dependency without actually executing its associated code. Mocks enable controlling dependency behavior and isolating the code under test.
+
+\subsubsection{Why Use Mock Objects?}
+Mocks are primarily used for:
+\begin{itemize}
+    \item \textbf{Isolating tests:} When a class or method depends on other external resources (like a database or an API), it is challenging to test with these real dependencies. Mocks simulate these resources and test only the class logic.
+    \item \textbf{Controlling dependency outputs:} Mocks can be programmed to return specific values or exceptions to test various scenarios.
+    \item \textbf{Avoiding side effects:} Dependencies may have undesirable side effects, like sending emails or modifying a real database. Mocks prevent these during tests.
+\end{itemize}
+
+\subsection{Introduction to Mockito}
+\textbf{Mockito} is a popular Java framework for creating \textbf{mock objects} in unit tests. It simplifies the process of simulating dependencies of a class or method. Mockito makes it easy to simulate complex behaviors and verify method calls.
+
+\subsubsection{Main Features of Mockito}
+Mockito offers several essential features for working with mocks:
+\begin{itemize}
+    \item \textbf{Creating mocks:} Easily create mocks for class dependencies.
+    \item \textbf{Stubbing:} Define what mocks should return when a method is called.
+    \item \textbf{Verification:} Check if specific methods were called on mocks, useful for testing interactions.
+\end{itemize}
+
+\subsection{Basic Examples with Mockito}
+\textbf{Creating a Mock:}
+\begin{lstlisting}
+import static org.mockito.Mockito.*;
+
+public class UserServiceTest {
+    @Test
+    public void testGetUser() {
+        UserRepository userRepository = mock(UserRepository.class);
+        User mockUser = new User("John", "Doe");
+        when(userRepository.findById(1)).thenReturn(mockUser);
+
+        UserService userService = new UserService(userRepository);
+        User user = userService.getUser(1);
+
+        assertEquals("John", user.getFirstName());
+    }
+}
+\end{lstlisting}
+
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+In conclusion, unit tests and mock objects play a central role in modern software development. Using frameworks such as JUnit and Mockito, developers can:
+\begin{itemize}
+    \item Ensure code reliability and quality.
+    \item Quickly identify and fix errors in individual units.
+    \item Effectively simulate external dependencies to isolate tests.
+\end{itemize}
+
+Unit tests encourage a proactive approach to bug management and provide clear documentation of functionalities. With mock objects, it becomes possible to test complex scenarios while minimizing risks related to external dependencies. These tools are indispensable for building robust, maintainable, and scalable software.
+
+\end{document}

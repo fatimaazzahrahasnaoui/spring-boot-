@@ -1,0 +1,68 @@
+{
+  "authors": [
+    {
+      "id": "1",
+      "name": "Jane Austen",
+      "age": 41
+    },
+    {
+      "id": "2",
+      "name": "Mark Twain",
+      "age": 74
+    },
+    {
+      "id": "3",
+      "name": "George Orwell",
+      "age": 46
+    },
+    {
+      "id": "d118",
+      "name": "Bilal",
+      "age": 21
+    }
+  ],
+  "books": [
+    {
+      "id": "1",
+      "title": "Pride and Prejudice",
+      "authorId": "1",
+      "categoryId": "1",
+      "publishedYear": 1813
+    },
+    {
+      "id": "2",
+      "title": "Emma",
+      "authorId": "1",
+      "categoryId": "2",
+      "publishedYear": 1815
+    },
+    {
+      "id": "3",
+      "title": "Adventures of Huckleberry Finn",
+      "authorId": "2",
+      "categoryId": "3",
+      "publishedYear": 1884
+    },
+    {
+      "id": "4",
+      "title": "1984",
+      "authorId": "3",
+      "categoryId": "1",
+      "publishedYear": 1949
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Classics"
+    },
+    {
+      "id": "2",
+      "name": "Romance"
+    },
+    {
+      "id": "3",
+      "name": "Adventure"
+    }
+  ]
+}

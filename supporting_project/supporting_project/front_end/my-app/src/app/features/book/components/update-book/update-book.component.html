@@ -1,0 +1,76 @@
+<div *ngIf="selectedBook">
+    <h2>Update Book: {{ selectedBook.title }}</h2>
+  
+    <form [formGroup]="form" (ngSubmit)="onUpdate()">
+      <!-- Book Title -->
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          formControlName="title"
+          [ngClass]="{
+            'is-invalid': form.get('title')?.invalid && form.get('title')?.touched
+          }"
+        />
+        <div class="invalid-feedback">Title is required.</div>
+      </div>
+  
+      <!-- Publish Date -->
+      <div class="mb-3">
+        <label for="publishDate" class="form-label">Publish Date</label>
+        <input
+          type="date"
+          id="publishDate"
+          class="form-control"
+          formControlName="publishDate"
+          [ngClass]="{
+            'is-invalid': form.get('publishDate')?.invalid && form.get('publishDate')?.touched
+          }"
+        />
+        <div class="invalid-feedback">Publish date is required.</div>
+      </div>
+  
+      <!-- Author -->
+      <div class="mb-3">
+        <label for="author" class="form-label">Author</label>
+        <input
+          type="text"
+          id="author"
+          class="form-control"
+          formControlName="author"
+          [ngClass]="{
+            'is-invalid': form.get('author')?.invalid && form.get('author')?.touched
+          }"
+        />
+        <div class="invalid-feedback">Author is required.</div>
+      </div>
+  
+      <!-- Category -->
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <input
+          type="text"
+          id="category"
+          class="form-control"
+          formControlName="category"
+          [ngClass]="{
+            'is-invalid': form.get('category')?.invalid && form.get('category')?.touched
+          }"
+        />
+        <div class="invalid-feedback">Category is required.</div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        Update Book
+      </button>
+    </form>
+  
+    <p class="text-success mt-3" *ngIf="message">{{ message }}</p>
+  </div>
+  
+  <ng-template>
+    <p>No book selected for update.</p>
+  </ng-template>
+  

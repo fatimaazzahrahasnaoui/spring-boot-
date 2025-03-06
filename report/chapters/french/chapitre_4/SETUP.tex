@@ -1,0 +1,197 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinelanguage{CSS}{
+    keywords={color, background-color, margin, padding, border},
+    sensitive=false,
+    morecomment=[l]{//},
+    morestring=[b]",
+}
+
+\lstdefinelanguage{TypeScript}{
+    keywords={import, from, class, extends, public, private, string, number, console, log, export, const, let, return, new},
+    sensitive=true,
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]",
+    morestring=[b]',
+    morestring=[b]`
+}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{red},
+    commentstyle=\color{green!70!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b
+}
+
+\title{Configuration d'un Projet Angular}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Prérequis}
+\subsection*{1. Node.js et npm (Node Package Manager)}
+Angular nécessite Node.js et npm pour fonctionner. Si vous ne les avez pas encore installés, téléchargez et installez la version la plus récente de Node.js depuis \texttt{https://nodejs.org}.
+
+Vous pouvez vérifier l'installation en exécutant les commandes suivantes dans votre terminal :
+\begin{verbatim}
+node -v
+npm -v
+\end{verbatim}
+
+\subsection*{2. Angular CLI}
+Angular CLI (Command Line Interface) est un outil de ligne de commande qui simplifie le processus de création, de gestion et de test des applications Angular.
+
+Pour installer Angular CLI globalement, exécutez la commande suivante :
+\begin{verbatim}
+npm install -g @angular/cli
+\end{verbatim}
+
+Vérifiez l'installation de Angular CLI :
+\begin{verbatim}
+ng version
+\end{verbatim}
+
+\section*{Étape 1 : Créer un Nouveau Projet Angular}
+\subsection*{1. Créer le projet}
+Dans le terminal, allez dans le répertoire où vous souhaitez créer votre projet Angular. Par exemple :
+\begin{verbatim}
+cd /chemin/vers/dossier
+\end{verbatim}
+
+Utilisez la commande \texttt{ng new} pour créer un nouveau projet Angular :
+\begin{verbatim}
+ng new nom-de-votre-projet
+\end{verbatim}
+
+Cette commande va vous poser quelques questions :
+\begin{itemize}
+    \item Voulez-vous utiliser Angular Routing ? Si vous avez besoin de la gestion des routes, répondez \texttt{Yes}.
+    \item Choisir un format de feuille de style : CSS, SCSS, Sass, Less, ou Stylus. Choisissez le format que vous préférez (CSS par défaut).
+\end{itemize}
+
+Après avoir répondu aux questions, Angular CLI va créer le projet dans un dossier avec le nom que vous avez spécifié.
+
+\subsection*{2. Naviguer dans le Dossier du Projet}
+Une fois le projet créé, allez dans le répertoire du projet :
+\begin{verbatim}
+cd nom-de-votre-projet
+\end{verbatim}
+
+\subsection*{3. Lancer le Serveur de Développement}
+Pour vérifier que tout fonctionne bien, lancez le serveur de développement avec la commande suivante :
+\begin{verbatim}
+ng serve
+\end{verbatim}
+
+Cette commande va :
+\begin{itemize}
+    \item Compiler le projet.
+    \item Lancer un serveur de développement sur \texttt{http://localhost:4200}.
+\end{itemize}
+
+Vous pouvez maintenant ouvrir votre navigateur et accéder à l'application Angular en naviguant vers \texttt{http://localhost:4200}. Si tout fonctionne correctement, vous verrez la page d'accueil Angular par défaut.
+
+\section*{Étape 2 : Structure du Projet}
+Un projet Angular généré par Angular CLI a la structure suivante :
+\begin{verbatim}
+nom-de-votre-projet/
+├── e2e/                           # Tests end-to-end
+├── node_modules/                  # Dépendances du projet
+├── src/                           # Code source de l'application
+│   ├── app/                       # Composants, services, etc.
+│   ├── assets/                    # Fichiers statiques (images, etc.)
+│   ├── environments/              # Fichiers de configuration pour différents environnements
+│   ├── index.html                 # Point d'entrée de l'application
+│   ├── main.ts                    # Point d'entrée de l'application (fichier TypeScript)
+│   └── styles.css                 # Feuille de style globale
+├── angular.json                   # Fichier de configuration du projet Angular
+├── package.json                   # Dépendances et scripts npm
+└── tsconfig.json                  # Configuration TypeScript
+\end{verbatim}
+
+\section*{Étape 3 : Ajouter un Composant}
+1. Pour créer un nouveau composant, utilisez la commande suivante :
+\begin{verbatim}
+ng generate component nom-du-composant
+\end{verbatim}
+Ou la forme abrégée :
+\begin{verbatim}
+ng g c nom-du-composant
+\end{verbatim}
+
+Cette commande va générer les fichiers nécessaires dans le dossier \texttt{src/app/nom-du-composant} :
+\begin{itemize}
+    \item \texttt{nom-du-composant.component.ts} (le fichier TypeScript du composant)
+    \item \texttt{nom-du-composant.component.html} (le template HTML du composant)
+    \item \texttt{nom-du-composant.component.css} (les styles du composant)
+    \item \texttt{nom-du-composant.component.spec.ts} (le fichier de test unitaire)
+\end{itemize}
+
+\section*{Étape 4 : Ajouter un Service}
+Les services sont utilisés pour fournir des données et des fonctionnalités dans l'application Angular.
+
+1. Pour générer un service, utilisez la commande :
+\begin{verbatim}
+ng generate service nom-du-service
+\end{verbatim}
+Ou la forme abrégée :
+\begin{verbatim}
+ng g s nom-du-service
+\end{verbatim}
+
+Cela va créer un fichier de service dans \texttt{src/app/nom-du-service.service.ts}.
+
+\section*{Étape 5 : Ajouter des Routes}
+Pour configurer des routes dans Angular, vous devez :
+1. Créer un fichier \texttt{app-routing.module.ts} si ce n'est pas déjà fait.
+2. Définir les routes et importer le \texttt{RouterModule}.
+
+Exemple :
+\begin{lstlisting}[language=TypeScript, caption={Using a service in a component}, label={lst:typescript-service-usage}]
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'about', component: AboutComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+\end{verbatim}
+
+\section*{Étape 6 : Déployer l'Application}
+Une fois votre application prête, vous pouvez la construire pour la production en exécutant la commande suivante :
+\begin{verbatim}
+ng build --prod
+\end{lstlisting}
+
+Cette commande va créer une version optimisée de l'application dans le dossier \texttt{dist/}.
+
+Vous pouvez ensuite déployer les fichiers de ce dossier sur votre serveur de production ou une plateforme cloud comme \texttt{Firebase}, \texttt{AWS}, ou \texttt{Netlify}.
+
+\end{document}

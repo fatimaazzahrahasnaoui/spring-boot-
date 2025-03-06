@@ -1,0 +1,25 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Create Category</h2>
+
+  <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.includes('successfully'), 'alert-danger': message.includes('Error')}">
+    {{ message }}
+  </div>
+
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="card p-4 shadow">
+    <div class="mb-3">
+      <label for="label" class="form-label">Category Label</label>
+      <input
+        type="text"
+        id="label"
+        formControlName="label"
+        class="form-control"
+        [ngClass]="{'is-invalid': categoryForm.get('label')?.invalid && categoryForm.get('label')?.touched}"
+      />
+      <div class="invalid-feedback">Label is required.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100" [disabled]="categoryForm.invalid">
+      Submit
+    </button>
+  </form>
+</div>

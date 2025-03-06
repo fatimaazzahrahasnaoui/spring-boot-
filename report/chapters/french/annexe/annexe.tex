@@ -1,0 +1,171 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+
+% Configuration pour les codes sources
+\lstset{
+    language=Java,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{gray},
+    frame=single,
+    breaklines=true
+}
+
+\title{Annexe}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section*{Annexe}
+\addcontentsline{toc}{section}{Annexe}
+
+\section{Cours sur les Tests Unitaires et JUnit}
+\subsection{Introduction aux Tests Unitaires}
+Les tests unitaires sont une pratique essentielle en développement logiciel. Ils permettent de vérifier qu'une unité de code (généralement une fonction ou une méthode) fonctionne correctement. Dans ce cours, nous allons explorer :
+\begin{itemize}
+    \item La définition et l'importance des tests unitaires.
+    \item Le framework JUnit pour les tests en Java.
+    \item La gestion des cas où des informations manquent ou doivent être ajoutées.
+\end{itemize}
+
+\subsection{Qu'est-ce qu'un test unitaire ?}
+Un test unitaire est un test automatisé qui valide le fonctionnement d'une unité spécifique de code. Une unité est souvent définie comme :
+\begin{itemize}
+    \item Une méthode dans une classe.
+    \item Une fonction dans un programme.
+\end{itemize}
+
+\subsubsection{Pourquoi effectuer des tests unitaires ?}
+Les tests unitaires présentent plusieurs avantages :
+\begin{itemize}
+    \item \textbf{Détection précoce des bugs :} Les erreurs sont identifiées avant que le code ne soit intégré à d'autres modules.
+    \item \textbf{Facilité de maintenance :} Lorsqu'une modification est apportée au code, les tests garantissent que cela n'introduit pas de nouvelles erreurs.
+    \item \textbf{Documentation du code :} Les tests servent de référence pour comprendre comment chaque méthode est censée se comporter.
+\end{itemize}
+
+\subsection{Présentation de JUnit}
+JUnit est un framework de test en Java largement utilisé pour écrire et exécuter des tests unitaires. Il est léger, rapide et facilement intégrable avec des outils modernes.
+
+\subsubsection{Annotations importantes dans JUnit}
+Voici les principales annotations utilisées dans JUnit :
+\begin{itemize}
+    \item \texttt{@Test} : Identifie une méthode comme un test unitaire.
+    \item \texttt{@BeforeEach} : Méthode exécutée avant chaque test, utile pour initialiser les données.
+    \item \texttt{@AfterEach} : Méthode exécutée après chaque test, souvent utilisée pour nettoyer les ressources.
+    \item \texttt{@BeforeAll} : Méthode exécutée une seule fois avant tous les tests.
+    \item \texttt{@AfterAll} : Méthode exécutée une seule fois après tous les tests.
+    \item \texttt{@Disabled} : Permet de désactiver temporairement un test.
+\end{itemize}
+
+\subsubsection{Assertions principales}
+Les assertions sont des méthodes qui vérifient les résultats des tests :
+\begin{itemize}
+    \item \texttt{assertEquals(expected, actual)} : Vérifie que la valeur réelle est égale à la valeur attendue.
+    \item \texttt{assertTrue(condition)} : Vérifie qu'une condition est vraie.
+    \item \texttt{assertFalse(condition)} : Vérifie qu'une condition est fausse.
+    \item \texttt{assertThrows(exception.class, () -> \{...\})} : Vérifie qu'une exception spécifique est levée.
+\end{itemize}
+
+\subsection{Exemple d'utilisation de JUnit}
+Voici un exemple simple qui teste une méthode d'addition dans une calculatrice.
+
+\subsubsection{Code de la classe \texttt{Calculator}}
+\begin{lstlisting}
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Code du test unitaire}
+\begin{lstlisting}
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CalculatorTest {
+    @Test
+    void testAddition() {
+        Calculator calculator = new Calculator();
+        int result = calculator.add(2, 3);
+        assertEquals(5, result); // Vérifie que 2 + 3 = 5
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Les Mock Objects avec Mockito}
+\subsection{Qu'est-ce qu'un Mock Object ?}
+Un \textbf{mock object} (objet fictif) est une \textbf{simulation} d'une dépendance externe utilisée dans les tests unitaires. Il permet de simuler le comportement de cette dépendance sans exécuter réellement le code associé. Les mocks permettent ainsi de contrôler le comportement des dépendances et d'isoler la partie de code que l'on souhaite tester.
+
+\subsubsection{Pourquoi utiliser des Mock Objects ?}
+Les mocks sont utilisés principalement pour :
+\begin{itemize}
+    \item \textbf{Isoler les tests} : Lorsqu'une classe ou une méthode dépend d'autres ressources externes (comme une base de données ou une API), il est difficile de tester avec ces dépendances réelles. Les mocks permettent de simuler ces ressources et de tester uniquement la logique de la classe.
+    \item \textbf{Contrôler les retours des dépendances} : On peut définir exactement ce que les mocks doivent retourner (par exemple, une valeur spécifique ou une exception) pour tester différents scénarios.
+    \item \textbf{Éviter les effets secondaires} : Les dépendances peuvent avoir des effets secondaires indésirables, comme envoyer des e-mails ou modifier une base de données réelle. Les mocks évitent ces effets secondaires pendant les tests.
+\end{itemize}
+
+\subsection{Introduction à Mockito}
+\textbf{Mockito} est un framework Java populaire permettant de créer des \textbf{mock objects} dans le cadre des tests unitaires. Il est utilisé pour simuler les dépendances d'une classe ou d'une méthode. Grâce à Mockito, nous pouvons simuler des comportements complexes et vérifier si des méthodes ont été appelées, de manière simple et efficace.
+
+\subsubsection{Fonctionnalités principales de Mockito}
+Mockito offre plusieurs fonctionnalités essentielles pour travailler avec les mocks :
+\begin{itemize}
+    \item \textbf{Création de mocks} : Mockito permet de créer facilement des mocks pour les dépendances d'une classe.
+    \item \textbf{Stubbing} : Il permet de spécifier ce que les mocks doivent retourner lorsqu'une méthode est appelée.
+    \item \textbf{Vérification} : Il permet de vérifier si certaines méthodes ont bien été appelées sur les mocks, ce qui est utile pour tester des interactions.
+\end{itemize}
+
+\subsection{Exemples de base avec Mockito}
+\textbf{Création d'un Mock :}
+\begin{lstlisting}
+import static org.mockito.Mockito.*;
+
+public class UserServiceTest {
+    @Test
+    public void testGetUser() {
+        UserRepository userRepository = mock(UserRepository.class);
+        User mockUser = new User("John", "Doe");
+        when(userRepository.findById(1)).thenReturn(mockUser);
+
+        UserService userService = new UserService(userRepository);
+        User user = userService.getUser(1);
+
+        assertEquals("John", user.getFirstName());
+    }
+}
+\end{lstlisting}
+
+
+
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+En conclusion, les tests unitaires et les mock objects jouent un rôle central dans le développement logiciel moderne. En utilisant des frameworks tels que JUnit et Mockito, les développeurs peuvent :
+\begin{itemize}
+    \item Garantir la fiabilité et la qualité de leur code.
+    \item Identifier et corriger rapidement les erreurs dans les unités individuelles.
+    \item Simuler efficacement des dépendances externes pour isoler les tests.
+\end{itemize}
+
+Les tests unitaires favorisent une approche proactive de la gestion des bugs et permettent une documentation claire des fonctionnalités. Avec l’intégration des mock objects, il devient possible de tester des scénarios complexes tout en minimisant les risques liés aux dépendances externes. Ces outils constituent donc des atouts indispensables pour produire un logiciel robuste, maintenable et évolutif.
+
+\end{document}

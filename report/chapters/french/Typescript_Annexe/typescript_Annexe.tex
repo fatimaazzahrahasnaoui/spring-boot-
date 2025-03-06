@@ -1,0 +1,365 @@
+\documentclass[a4paper,12pt]{article}
+
+% Packages nécessaires
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\geometry{margin=1in}
+
+% Configuration des marges
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+% Configuration des couleurs
+\definecolor{keywords}{rgb}{0.13,0.29,0.53}
+\definecolor{comments}{rgb}{0.4,0.4,0.4}
+\definecolor{strings}{rgb}{0.6,0.0,0.0}
+\definecolor{background}{rgb}{0.95,0.95,0.95}
+
+% Configuration des listings
+\lstset{
+  backgroundcolor=\color{background},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{keywords}\bfseries,
+  commentstyle=\color{comments}\itshape,
+  stringstyle=\color{strings},
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5pt,
+  showstringspaces=false,
+  captionpos=b,
+  tabsize=2,
+  escapeinside={(*@}{@*)} % Permet d'insérer des commandes LaTeX
+}
+
+% Configuration des sections
+\titleformat{\section}{\Large\bfseries\color{keywords}}{}{0em}{}
+\titleformat{\subsection}{\large\bfseries\color{keywords}}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{keywords}}{}{0em}{}
+
+% Document
+\begin{document}
+
+\title{\textbf{Annexe TypeScript pour un projet Spring Boot et Angular}}
+\author{}
+\date{}
+\maketitle
+
+\section*{Introduction}
+Cette annexe fournit une vue d'ensemble complète des concepts TypeScript essentiels pour le développement d'une interface frontale Angular robuste, intégrée à un back-end Spring Boot. Le contenu inclut la syntaxe, les fonctionnalités avancées et les bonnes pratiques pour un développement efficace et sécurisé par typage.
+
+\section{Types TypeScript}
+\subsection*{Concepts Clés}
+\begin{itemize}
+    \item \textbf{Alias de Type :} Définir des structures de type réutilisables et complexes.
+    \item \textbf{Polyvalence :} Prend en charge les types union, intersection et mappés pour des modèles dynamiques et réutilisables.
+\end{itemize}
+
+\subsection*{Syntaxe Courante des Types}
+\subsubsection*{Exemple de Base d'Alias de Type}
+\begin{lstlisting}[language=TypeScript]
+type Person = {
+  name: string;
+  age: number;
+};
+\end{lstlisting}
+
+\subsubsection*{Types Union et Intersection}
+\textbf{Types Union :}
+\begin{lstlisting}[language=TypeScript]
+type Size = "small" | "medium" | "large";
+\end{lstlisting}
+
+\textbf{Types Intersection :}
+\begin{lstlisting}[language=TypeScript]
+type Location = { x: number } & { y: number };
+\end{lstlisting}
+
+\subsubsection*{Tuples}
+\begin{lstlisting}[language=TypeScript]
+type Point = [number, number];
+\end{lstlisting}
+
+\subsubsection*{Propriétés en Lecture Seule (Read-only)}
+\begin{lstlisting}[language=TypeScript]
+type Person = {
+  readonly id: number;
+  name: string;
+};
+\end{lstlisting}
+
+\subsection*{Fonctionnalités Avancées}
+\textbf{Type basé sur des Valeurs :}
+\begin{lstlisting}[language=TypeScript]
+const data = { id: 1, name: "Alice" };
+type DataType = typeof data; // Infère le type depuis `data`
+\end{lstlisting}
+
+\textbf{Types Mappés :}
+\begin{lstlisting}[language=TypeScript]
+type Subscriber<T> = {
+  [P in keyof T]: (value: T[P]) => void;
+};
+\end{lstlisting}
+
+\textbf{Types Utilitaires :}
+\begin{itemize}
+    \item \textbf{Pick :} Sélectionne des propriétés spécifiques.
+    \begin{lstlisting}[language=TypeScript]
+    type NameAndAge = Pick<Person, "name" | "age">;
+    \end{lstlisting}
+    \item \textbf{Partial :} Rend toutes les propriétés optionnelles.
+    \begin{lstlisting}[language=TypeScript]
+    type PartialPerson = Partial<Person>;
+    \end{lstlisting}
+\end{itemize}
+
+\subsection*{Bonnes Pratiques}
+\begin{itemize}
+    \item Utilisez \texttt{readonly} pour les propriétés immuables.
+    \item Exploitez les types utilitaires pour un code modulaire et réutilisable.
+    \item Appliquez les génériques pour un design de type flexible.
+\end{itemize}
+
+\subsection*{Syntaxe de Base d’une Interface}
+\begin{lstlisting}[language=TypeScript]
+interface Person {
+  name: string;
+  age: number;
+}
+\end{lstlisting}
+
+\subsection*{Fonctionnalités Avancées}
+\begin{itemize}
+    \item \textbf{Propriétés Optionnelles :} Utilisez la syntaxe \texttt{?} pour indiquer que certaines propriétés sont facultatives.
+    \begin{lstlisting}[language=TypeScript]
+    interface Person {
+      name: string;
+      age?: number; // Optionnel
+    }
+    \end{lstlisting}
+    \item \textbf{Propriétés en Lecture Seule :} Empêchez les modifications aux propriétés avec le modificateur \texttt{readonly}.
+    \begin{lstlisting}[language=TypeScript]
+    interface Person {
+      readonly id: number;
+      name: string;
+    }
+    \end{lstlisting}
+    \item \textbf{Extension des Interfaces :} Combinez plusieurs interfaces pour une meilleure extensibilité.
+    \begin{lstlisting}[language=TypeScript]
+    interface Employee extends Person {
+      department: string;
+    }
+    \end{lstlisting}
+    \item \textbf{Signatures d’Index :} Utilisez des noms de propriétés dynamiques.
+    \begin{lstlisting}[language=TypeScript]
+    interface Dictionary {
+      [key: string]: string;
+    }
+    \end{lstlisting}
+\end{itemize}
+
+\subsection*{Bonnes Pratiques}
+\begin{itemize}
+    \item Utilisez les interfaces pour définir des contrats d’objet.
+    \item Exploitez \texttt{readonly} pour imposer l’immuabilité.
+    \item Étendez les interfaces pour une meilleure extensibilité et réutilisabilité.
+\end{itemize}
+
+\section{Classes TypeScript}
+\subsection*{Introduction}
+Les classes TypeScript étendent la syntaxe des classes JavaScript en ajoutant des types statiques, des modificateurs d’accès, et des fonctionnalités avancées de programmation orientée objet.
+
+\subsection*{Exemple de Base d’une Classe}
+\begin{lstlisting}[language=TypeScript]
+class Person {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  greet(): string {
+    return `Hello, ${this.name}!`;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Modificateurs d’Accès}
+TypeScript introduit des modificateurs d’accès pour assurer l’encapsulation :
+\begin{itemize}
+    \item \texttt{public} : Accessible partout.
+    \item \texttt{private} : Accessible uniquement dans la classe.
+    \item \texttt{protected} : Accessible dans la classe et ses sous-classes.
+\end{itemize}
+
+\textbf{Exemple :}
+\begin{lstlisting}[language=TypeScript]
+class Employee {
+  private id: number;
+  protected department: string;
+  public name: string;
+
+  constructor(id: number, name: string, department: string) {
+    this.id = id;
+    this.name = name;
+    this.department = department;
+  }
+
+  getDetails(): string {
+    return `${this.name} works in ${this.department}.`;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Propriétés et Méthodes Statiques}
+\begin{lstlisting}[language=TypeScript]
+class MathUtils {
+  static pi = 3.14;
+
+  static calculateArea(radius: number): number {
+    return MathUtils.pi * radius * radius;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Héritage}
+\begin{lstlisting}[language=TypeScript]
+class Manager extends Employee {
+  constructor(id: number, name: string, department: string) {
+    super(id, name, department);
+  }
+  manage(): string {
+    return `${this.name} manages the ${this.department} department.`;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Accesseurs (Getters) et Mutateurs (Setters)}
+Encapsulez l'accès aux propriétés pour un meilleur contrôle et une validation des données.
+
+\begin{lstlisting}[language=TypeScript]
+class Rectangle {
+  private _width: number;
+  private _height: number;
+
+  constructor(width: number, height: number) {
+    this._width = width;
+    this._height = height;
+  }
+
+  get area(): number {
+    return this._width * this._height;
+  }
+
+  set dimensions({ width, height }: { width: number; height: number }) {
+    this._width = width;
+    this._height = height;
+  }
+}
+\end{lstlisting}
+
+\subsection*{Propriétés Paramétriques (Parameter Properties)}
+Utilisez une syntaxe abrégée pour définir et initialiser les propriétés directement dans le constructeur.
+
+\begin{lstlisting}[language=TypeScript]
+class User {
+  constructor(public name: string, private readonly id: number) {}
+}
+\end{lstlisting}
+
+\subsection*{Bonnes Pratiques}
+\begin{itemize}
+    \item Utilisez \texttt{private} pour l'encapsulation des données et \texttt{readonly} pour les rendre immuables.
+    \item Profitez des \textit{classes abstraites} pour définir des comportements communs entre les classes.
+    \item Appliquez les membres \textit{statiques} pour les fonctions utilitaires et les constantes partagées.
+\end{itemize}
+
+\section{Analyse du Flux de Contrôle TypeScript (CFA)}
+\subsection*{Vue d’Ensemble}
+L'Analyse du Flux de Contrôle (Control Flow Analysis, CFA) permet à TypeScript de restreindre dynamiquement les types en fonction de la logique du code, garantissant ainsi la sécurité des types et réduisant les erreurs au moment de l'exécution.
+
+\subsection*{Caractéristiques Clés}
+\subsubsection*{Réduction des Types avec des Conditions}
+\begin{itemize}
+    \item \textbf{\texttt{typeof} :} Réduire les types pour les primitives.
+\end{itemize}
+\begin{lstlisting}[language=TypeScript]
+const input: string | number = getInput();
+if (typeof input === "string") {
+  console.log(input.length); // input est une chaîne ici
+}
+\end{lstlisting}
+
+\begin{itemize}
+    \item \textbf{\texttt{instanceof} :} Réduire les types pour les classes ou objets.
+\end{itemize}
+\begin{lstlisting}[language=TypeScript]
+if (input instanceof Array) {
+  console.log(input.length); // input est un tableau ici
+}
+\end{lstlisting}
+
+\begin{itemize}
+    \item \textbf{\texttt{in} Operator :} Vérifier l'existence d'une propriété dans un objet.
+\end{itemize}
+\begin{lstlisting}[language=TypeScript]
+if ("error" in response) {
+  console.log(response.error);
+}
+\end{lstlisting}
+\subsubsection*{Unions Discriminées (Discriminated Unions)}
+Réduisez les types à l'aide d'une propriété discriminante partagée pour gérer plusieurs types au sein d'un objet.
+
+\begin{lstlisting}[language=TypeScript]
+type Response =
+  | { status: 200; data: string }
+  | { status: 404; error: string };
+
+const res: Response = getResponse();
+if (res.status === 200) {
+  console.log(res.data);
+}
+\end{lstlisting}
+
+\subsubsection*{Gardes de Type Personnalisées (Custom Type Guards)}
+Créez des fonctions réutilisables pour affiner les types et assurer la sécurité des données.
+
+\begin{lstlisting}[language=TypeScript]
+function isErrorResponse(obj: any): obj is { error: string } {
+  return "error" in obj;
+}
+\end{lstlisting}
+
+\subsubsection*{Fonctions d’Assertion (Assertion Functions)}
+Utilisez des fonctions d'assertion pour modifier la portée du type ou générer une erreur lorsque les conditions ne sont pas remplies.
+
+\begin{lstlisting}[language=TypeScript]
+function assertIsNumber(value: any): asserts value is number {
+  if (typeof value !== "number") {
+    throw new Error("Not a number");
+  }
+}
+\end{lstlisting}
+
+\subsection*{Bonnes Pratiques}
+\begin{itemize}
+    \item Utilisez les \textbf{unions discriminées} pour les objets ayant des propriétés partagées afin de gérer plusieurs types.
+    \item Écrivez des \textbf{gardes de type personnalisées} pour une logique de réduction des types réutilisable et lisible.
+    \item Appliquez les \textbf{fonctions d’assertion} pour une validation stricte des types lors de l’exécution.
+\end{itemize}
+
+\section{Résumé des Fonctionnalités et Bonnes Pratiques TypeScript}
+\noindent
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{images/typescript_comm2.jpg}
+    \caption{Cheat Sheet TypeScript : Fonctionnalités et Bonnes Pratiques}
+    \label{fig:Typescipt_Cheat_Sheet}
+\end{figure}
+
+
+\end{document}

@@ -1,0 +1,13 @@
+<div class="container mt-5">
+
+    <div *ngIf="message" class="alert alert-danger">
+      {{ message }}
+    </div>
+  
+    <h2>{{ book?.title }}</h2>
+    <p><strong>Author:</strong> {{ book?.author?.name }}</p>
+    <p><strong>Category:</strong> {{ book?.category?.name }}</p>
+    <p><strong>Publish Date:</strong> {{ book?.publishDate | date }}</p>
+  
+  </div>
+  

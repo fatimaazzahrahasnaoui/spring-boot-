@@ -1,0 +1,32 @@
+<div *ngIf="loading">Loading books...</div>
+<div *ngIf="message">{{ message }}</div>
+
+<table *ngIf="!loading && books.length > 0" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Title</th>
+      <th>Publish Date</th>
+      <th>Author</th>
+      <th>Category</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let book of books">
+      <td>{{ book.id }}</td>
+      <td>{{ book.title }}</td>
+      <td>{{ book.publishDate | date }}</td>
+      <td>{{ book.author?.name }}</td>
+      <td>{{ book.category?.name }}</td>
+
+      <td>
+        <button class="btn btn-info" (click)="navigateTo('view', book)">View</button>
+        <button class="btn btn-warning" (click)="navigateTo('update', book)">Edit</button>
+        <button class="btn btn-danger" (click)="navigateTo('delete', book)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="books.length === 0 && !loading">No books available.</div>

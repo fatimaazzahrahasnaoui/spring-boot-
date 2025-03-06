@@ -1,0 +1,16 @@
+
+<div class="navbar">
+    <a routerLink="/author">Authors</a>
+    <a routerLink="/book">Books</a>
+    <a routerLink="/category">Categories</a>
+  </div>
+  
+  <!-- Home Page - Simple landing page -->
+  <div *ngIf="!isModuleSelected" class="home-page">
+    <h1>Welcome to the Home Page</h1>
+    <p>Select a module to view content.</p>
+  </div>
+  
+  <!-- Router Outlet -->
+  <router-outlet></router-outlet>
+  

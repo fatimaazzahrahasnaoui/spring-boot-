@@ -1,0 +1,40 @@
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Create Author</h2>
+  
+    <!-- Message Display -->
+    <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.includes('successfully'), 'alert-danger': message.includes('Error')}">
+      {{ message }}
+    </div>
+  
+    <!-- Author Form -->
+    <form [formGroup]="authorForm" (ngSubmit)="onSubmit()" class="card p-4 shadow">
+      <div class="mb-3">
+        <label for="name" class="form-label">Author Name</label>
+        <input 
+          type="text" 
+          id="name" 
+          formControlName="name" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': authorForm.get('name')?.invalid && authorForm.get('name')?.touched}"
+        />
+        <div class="invalid-feedback">Name is required.</div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="age" class="form-label">Author Age</label>
+        <input 
+          type="number" 
+          id="age" 
+          formControlName="age" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': authorForm.get('age')?.invalid && authorForm.get('age')?.touched}"
+        />
+        <div class="invalid-feedback">Age is required.</div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary w-100" [disabled]="authorForm.invalid">
+        Submit
+      </button>
+    </form>
+  </div>
+  
